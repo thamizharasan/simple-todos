@@ -1,14 +1,26 @@
 <head>
-  <title>simple-todos</title>
+	<title>Evernote Clone</title>
 </head>
-
 <body>
-  <h1>Welcome to Meteor!</h1>
+	<div class="container">
+		<header>
+			<h1>Evernote</h1>
+		</header>
+		<form class="new-note">
+			<input type="text" name="text" placeholder="Type to add new note">
+		</form>
 
-  {{> hello}}
+		<ul>
+			{{#each notes}}		
+				{{>note}}
+			{{/each}}
+		</ul>
+	</div>
 </body>
 
-<template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
-</template>
+	<template name="note">
+		<li>
+		    <button class="delete">&times;</button>
+		    <span class="text">{{text}}</span>
+		 </li>
+	</template>

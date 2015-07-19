@@ -1,23 +1,39 @@
+Notes = new Mongo.Collection("notes");
+
 if (Meteor.isClient) {
-  // counter starts at 0
-  Session.setDefault('counter', 0);
-
-  Template.hello.helpers({
-    counter: function () {
-      return Session.get('counter');
+  Template.body.helpers({
+    notes: function(){
+      return Notes.find({},{sort : {createdAt: -1}});
     }
   });
 
-  Template.hello.events({
-    'click button': function () {
-      // increment the counter when button is clicked
-      Session.set('counter', Session.get('counter') + 1);
+  Template.body.events({
+    "submit .new-note": function(event){
+      
+      event.preventDefault();
+
+      var text = event.target.text.value;
+
+      Notes.insert({
+        text: text,
+        createdAt : new Date()
+      });
+
+      event.target.text.value = "";
+
     }
   });
+
+  Template.note.events({
+    "click .delete": function () {
+      Notes.remove(this._id);
+    }
+  });
+
 }
 
+
+
 if (Meteor.isServer) {
-  Meteor.startup(function () {
-    // code to run on server at startup
-  });
+  
 }
